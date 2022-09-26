@@ -13,7 +13,7 @@
       </div>
       <el-form-item>
         <span class="svg-container el-icon-user-solid" />
-        <el-input type="text" placeholder="请输入手机号码" />
+        <el-input v-model="loginName" type="text" placeholder="请输入手机号码" />
       </el-form-item>
       <el-form-item>
         <span class="svg-container">
@@ -34,13 +34,14 @@
       <el-form-item>
         <div class="el-col el-col-17">
           <span class="svg-container el-icon-circle-check" />
-        <el-input placeholder="请输入验证码" />
+        <el-input v-model="code" placeholder="请输入验证码" />
         </div>
-        <div class="el-col el-col-7" ref="yzm">
-          <img :src="imgSrc" alt="" @click="getV">
+        <div class="el-col el-col-7">
+          <img ref="yzm" :src="imgSrc" alt="" @click="getV">
         </div>
       </el-form-item>
       <el-button
+      @click="onLogin"
         class="loginBtn"
         style="width: 100%; margin-bottom: 30px">登录</el-button>
     </el-form>
@@ -52,10 +53,14 @@ import { login, vali } from '@/api'
 export default {
   data() {
     return {
+      mobile: '',
       password: '',
+      loginName: '',
       passwordType: 'password',
-      yzm: '',
-      imgSrc: ''
+      imgSrc: '',
+      clientToken: '',
+      code: '',
+      data: {}
     }
   },
   created() {
@@ -68,21 +73,34 @@ export default {
         this.$refs.pwd.focus()
       })
     },
-    async getT() {
-      const data = await login({
-        loginName: 'admin',
-        password: 'admin',
-        mobile: '13836919288',
-        code: '2c8g'
-      })
-      console.log(data)
-    },
     async getV() {
-      const data = await vali()
+      this.clientToken = Math.random() * (10 - 0)
+      const data = await vali(this.clientToken)
       this.imgSrc = window.URL.createObjectURL(data.data)
       // this.imgSrc.splite('/')
       console.log(data)
-      // console.log(data)
+      // this.clientToken = this.imgSrc.split('/')[3]
+    },
+    async onLogin() {
+      await this.fuzhi()
+      try {
+        const { data } = await login(this.data)
+        console.log(data)
+        if (data.token) {
+          this.$router.push('/dashboard')
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async fuzhi() {
+      this.data = {
+        loginName: this.loginName,
+        password: this.password,
+        code: this.code,
+        clientToken: this.clientToken,
+        loginType: 0
+      }
     }
   }
 }

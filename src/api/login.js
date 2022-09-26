@@ -1,14 +1,14 @@
 import request from '@/utils/request.js'
 export function login(data) {
   return request({
-    url: '/user-service/user/login',
+    url: '/api/user-service/user/login',
     method: 'POST',
     data
   })
 }
-export function vali() {
+export function vali(clientToken) {
   return request({
-    url: '/user-service/user/imageCode/:clientToken',
+    url: `/api/user-service/user/imageCode/${clientToken}`,
     method: 'GET',
     responseType: 'blob'
   })

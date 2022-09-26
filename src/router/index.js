@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/views/login'
+import Dashboard from '@/views/dashboard'
 Vue.use(Router)
 const routes = [
   {
@@ -10,6 +11,10 @@ const routes = [
   {
     path: '/login',
     component: Login
+  },
+  {
+    path: '/dashboard',
+    component: Dashboard
   }
 ]
 /* Layout */
