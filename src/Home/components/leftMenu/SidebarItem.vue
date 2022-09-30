@@ -93,3 +93,11 @@ export default {
   }
 }
 </script>
+<style>
+.el-menu-item{
+     background-color:unset !important
+  }
+.el-submenu__title{
+  background-color:unset !important
+}
+</style>

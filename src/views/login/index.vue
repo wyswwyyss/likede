@@ -20,8 +20,8 @@
           <svg-icon icon-class="password" />
         </span>
         <el-input
+        ref="pwd"
         v-model="password"
-          ref="pwd"
           :type="passwordType"
           placeholder="请输入密码"
         />
@@ -87,7 +87,7 @@ export default {
         const { data } = await login(this.data)
         console.log(data)
         if (data.token) {
-          this.$router.push('/dashboard')
+          this.$router.push('/home')
         }
       } catch (error) {
         console.log(error)
